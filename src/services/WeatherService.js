@@ -15,5 +15,11 @@ export const WeatherService = function (fetcher) {
         data.map(WeatherForecast)
       );
     },
+    sendData: async (data) => {
+      return fetcher(`${BASE_URL}/data`, {
+        method: "POST",
+        body: JSON.stringify(data),
+      });
+    },
   };
 };

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Header from "components/Header";
-
-const LOCATIONS = ["Aarhus", "Copenhagen", "Horsens"];
+import { LOCATIONS } from "config/constants";
+import SelectLocation from "../components/SelectLocation";
 
 const WeatherPageContainer = (props) => {
   const [location, setLocation] = useState(LOCATIONS[0]);
@@ -30,18 +30,7 @@ const WeatherPageContainer = (props) => {
     <div>
       <Header />
 
-      <div>
-        <label htmlFor="select-location">City</label>
-        <select
-          id="select-location"
-          value={location}
-          onChange={(e) => handleChangeLocation(e.target.value)}
-        >
-          {LOCATIONS.map((location) => (
-            <option key={location}>{location}</option>
-          ))}
-        </select>
-      </div>
+      <SelectLocation value={location} onChange={handleChangeLocation} />
 
       <hr />
 
