@@ -10,6 +10,8 @@ const weatherService = WeatherService((...args) =>
 
 const Home = () => {
   const [location, setLocation] = useState(LOCATIONS[0]);
+  const [historicalData, setHistoricalData] = useState([]);
+  const [forecastData, setForecastData] = useState([]);
 
   useEffect(() => {
     handleLoadData();
@@ -20,11 +22,13 @@ const Home = () => {
   }
 
   async function handleLoadData() {
-    const [historicalData] = await Promise.all([
+    const [historicalData, forecastData] = await Promise.all([
       weatherService.getDataByCity(location),
+      weatherService.getForecast(location),
     ]);
 
-    console.log({ historicalData });
+    setHistoricalData(historicalData);
+    setForecastData(forecastData);
   }
 
   return (
@@ -36,6 +40,8 @@ const Home = () => {
 
       <WeatherPageContainer
         location={location}
+        historicalData={historicalData}
+        forecastData={forecastData}
         onChangeLocation={handleChangeLocation}
       />
     </div>

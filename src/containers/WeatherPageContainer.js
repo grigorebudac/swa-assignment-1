@@ -24,16 +24,20 @@ const WeatherPageContainer = (props) => {
       <table>
         <thead>
           <tr>
-            <th>Hour</th>
+            <th>Time</th>
+            <th>Type</th>
             <th>Forecast</th>
           </tr>
         </thead>
 
         <tbody>
-          <tr>
-            <td>1</td>
-            <td>1</td>
-          </tr>
+          {props.forecastData.map((forecast, index) => (
+            <tr key={index}>
+              <td>{forecast.getFormattedTime()}</td>
+              <td>{forecast.type}</td>
+              <td>{forecast.getForecast()}</td>
+            </tr>
+          ))}
         </tbody>
       </table>
 
