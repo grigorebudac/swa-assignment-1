@@ -3,7 +3,7 @@ export function fetchWithXMLHttpRequest(url, options = {}) {
     const xhttp = new XMLHttpRequest();
     xhttp.responseType = "json";
 
-    xhttp.open(method, url, true);
+    xhttp.open(options.method || "GET", url, true);
 
     if (options.method != null) {
       const isSendMethod = ["POST", "PUT"].includes(

@@ -1,9 +1,9 @@
 import React from "react";
 import WeatherPageContainer from "containers/WeatherPageContainer";
 import { WeatherService } from "services/WeatherService";
-import { fetchWithXMLHttpRequest } from "utils/fetchWithXMLHttpRequest";
+import { xmlFetcher } from "config/fetchers";
 
-const weatherService = WeatherService(fetchWithXMLHttpRequest);
+const weatherService = WeatherService(xmlFetcher);
 
 const Home = () => {
   return <WeatherPageContainer weatherService={weatherService} />;

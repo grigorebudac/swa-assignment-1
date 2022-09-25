@@ -1,10 +1,9 @@
 import React from "react";
 import WeatherPageContainer from "containers/WeatherPageContainer";
 import { WeatherService } from "services/WeatherService";
+import { fetchFetcher } from "../config/fetchers";
 
-const weatherService = WeatherService((...args) =>
-  fetch(...args).then((res) => res.json())
-);
+const weatherService = WeatherService(fetchFetcher);
 
 const Home = () => {
   return <WeatherPageContainer weatherService={weatherService} />;

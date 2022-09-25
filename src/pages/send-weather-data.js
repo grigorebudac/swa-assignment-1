@@ -5,13 +5,13 @@ import SelectLocation from "components/SelectLocation";
 import { LOCATIONS } from "config/constants";
 import { WeatherService } from "../services/WeatherService";
 
+import { xmlFetcher } from "config/fetchers";
+
 function getInputValue(e, name) {
   return e.target[name].value;
 }
 
-const weatherService = WeatherService((...args) =>
-  fetch(...args).then((res) => res.json())
-);
+const weatherService = WeatherService(xmlFetcher);
 
 const SendWeatherData = () => {
   const [location, setLocation] = useState(LOCATIONS[0]);
@@ -24,7 +24,6 @@ const SendWeatherData = () => {
   async function handleSubmit(e) {
     e.preventDefault();
     setLoading(true);
-    console.log({ e });
 
     try {
       const type = getInputValue(e, "type");
@@ -42,7 +41,7 @@ const SendWeatherData = () => {
       alert("Success!");
       e.target.reset();
     } catch (error) {
-      alert(error);
+      alert(JSON.stringify(error));
     } finally {
       setLoading(false);
     }

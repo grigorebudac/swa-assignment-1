@@ -16,9 +16,10 @@ export const WeatherService = function (fetcher) {
       );
     },
     sendData: async (data) => {
-      return fetcher(`${BASE_URL}/data`, {
+      return fetch(`${BASE_URL}/data`, {
         method: "POST",
         body: JSON.stringify(data),
+        headers: new Headers({ "content-type": "application/json" }),
       });
     },
   };
