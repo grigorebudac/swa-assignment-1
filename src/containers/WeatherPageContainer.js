@@ -1,9 +1,31 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Header from "components/Header";
 
-export const LOCATIONS = ["Aarhus", "Copenhagen", "Horsens"];
+const LOCATIONS = ["Aarhus", "Copenhagen", "Horsens"];
 
 const WeatherPageContainer = (props) => {
+  const [location, setLocation] = useState(LOCATIONS[0]);
+  const [historicalData, setHistoricalData] = useState([]);
+  const [forecastData, setForecastData] = useState([]);
+
+  useEffect(() => {
+    handleLoadData();
+  }, [location]);
+
+  function handleChangeLocation(location) {
+    setLocation(location);
+  }
+
+  async function handleLoadData() {
+    const [historicalData, forecastData] = await Promise.all([
+      props.weatherService.getDataByCity(location),
+      props.weatherService.getForecast(location),
+    ]);
+
+    setHistoricalData(historicalData);
+    setForecastData(forecastData);
+  }
+
   return (
     <div>
       <Header />
@@ -12,8 +34,8 @@ const WeatherPageContainer = (props) => {
         <label htmlFor="select-location">City</label>
         <select
           id="select-location"
-          value={props.location}
-          onChange={(e) => props.onChangeLocation(e.target.value)}
+          value={location}
+          onChange={(e) => handleChangeLocation(e.target.value)}
         >
           {LOCATIONS.map((location) => (
             <option key={location}>{location}</option>
@@ -34,7 +56,7 @@ const WeatherPageContainer = (props) => {
         </thead>
 
         <tbody>
-          {props.forecastData.map((forecast, index) => (
+          {forecastData.map((forecast, index) => (
             <tr key={index}>
               <td>{forecast.getFormattedTime()}</td>
               <td>{forecast.type}</td>
