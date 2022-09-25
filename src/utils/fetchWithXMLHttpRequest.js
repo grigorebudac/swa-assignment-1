@@ -11,7 +11,6 @@ export function fetchWithXMLHttpRequest(url, method = "GET", payload) {
 
     xhttp.onreadystatechange = function () {
       if (this.readyState == 4) {
-        console.log(xhttp.response);
         if (this.status >= 200 && this.status < 300) {
           resolve(xhttp.response);
         } else {

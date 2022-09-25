@@ -1,10 +1,13 @@
 import React from "react";
+import Header from "components/Header";
 
 export const LOCATIONS = ["Aarhus", "Copenhagen", "Horsens"];
 
 const WeatherPageContainer = (props) => {
   return (
     <div>
+      <Header />
+
       <div>
         <label htmlFor="select-location">City</label>
         <select
