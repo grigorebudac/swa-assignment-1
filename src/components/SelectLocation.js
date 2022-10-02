@@ -1,5 +1,5 @@
 import React from "react";
-import { LOCATIONS } from "config/constants";
+import { LOCATIONS } from "../config/constants";
 
 const SelectLocation = (props) => {
   return (
@@ -12,7 +12,9 @@ const SelectLocation = (props) => {
         onChange={(e) => props.onChange(e.target.value)}
       >
         {LOCATIONS.map((location) => (
-          <option key={location}>{location}</option>
+          <option key={location} value={location}>
+            {location}
+          </option>
         ))}
       </select>
     </div>

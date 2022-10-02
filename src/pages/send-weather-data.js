@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 
-import Header from "components/Header";
-import SelectLocation from "components/SelectLocation";
-import { LOCATIONS } from "config/constants";
+import Header from "../components/Header";
+import SelectLocation from "../components/SelectLocation";
+import { FORECAST_TYPE, LOCATIONS } from "../config/constants";
 import { WeatherService } from "../services/WeatherService";
 
-import { xmlFetcher } from "config/fetchers";
+import { xmlFetcher } from "../config/fetchers";
+import SelectForecastType from "../components/SelectForecastType";
 
 function getInputValue(e, name) {
   return e.target[name].value;
@@ -14,6 +15,7 @@ function getInputValue(e, name) {
 const weatherService = WeatherService(xmlFetcher);
 
 const SendWeatherData = () => {
+  const [type, setType] = useState(FORECAST_TYPE[0]);
   const [location, setLocation] = useState(LOCATIONS[0]);
   const [isLoading, setLoading] = useState(false);
 
@@ -21,18 +23,20 @@ const SendWeatherData = () => {
     setLocation(location);
   }
 
+  function handleChangeForecastType(type) {
+    setType(type);
+  }
+
   async function handleSubmit(e) {
     e.preventDefault();
     setLoading(true);
 
     try {
-      const type = getInputValue(e, "type");
       const place = getInputValue(e, "place");
       const value = getInputValue(e, "value");
       const unit = getInputValue(e, "unit");
 
       await weatherService.sendData({
-        type,
         place,
         value,
         unit,
@@ -52,16 +56,13 @@ const SendWeatherData = () => {
       <Header />
 
       <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="type">Type</label>
-          <input id="type" name="type" required />
-        </div>
+        <SelectForecastType value={type} onChange={handleChangeForecastType} />
 
         <SelectLocation value={location} onChange={handleChangeLocation} />
 
         <div>
           <label htmlFor="value">Value</label>
-          <input id="value" name="value" required />
+          <input id="value" name="value" type="number" required />
         </div>
 
         <div>

@@ -1,7 +1,8 @@
 import React from "react";
-import WeatherPageContainer from "containers/WeatherPageContainer";
-import { WeatherService } from "services/WeatherService";
-import { xmlFetcher } from "config/fetchers";
+
+import WeatherPageContainer from "../containers/WeatherPageContainer";
+import { WeatherService } from "../services/WeatherService";
+import { xmlFetcher } from "../config/fetchers";
 
 const weatherService = WeatherService(xmlFetcher);
 

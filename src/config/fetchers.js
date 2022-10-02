@@ -1,4 +1,4 @@
-import { fetchWithXMLHttpRequest } from "utils/fetchWithXMLHttpRequest";
+import { fetchWithXMLHttpRequest } from "../utils/fetchWithXMLHttpRequest";
 
 export const xmlFetcher = fetchWithXMLHttpRequest;
 

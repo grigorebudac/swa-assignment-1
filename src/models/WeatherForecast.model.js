@@ -3,13 +3,11 @@ import { WeatherData } from "./WeatherData.model";
 export const WeatherForecast = function (data) {
   return Object.assign(
     {
-      from: data.from,
-      to: data.to,
       getFrom: function () {
-        return `${this.from}${this.unit}`;
+        return `${data.from}${this.getUnit()}`;
       },
       getTo: function () {
-        return `${this.to}${this.unit}`;
+        return `${data.to}${this.getUnit()}`;
       },
       getForecast: function () {
         return `from ${this.getFrom()} to ${this.getTo()}`;

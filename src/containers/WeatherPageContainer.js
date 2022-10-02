@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import Header from "components/Header";
-import { LOCATIONS } from "config/constants";
+
+import Header from "../components/Header";
+import { LOCATIONS } from "../config/constants";
 import SelectLocation from "../components/SelectLocation";
 
 const WeatherPageContainer = (props) => {
@@ -48,7 +49,7 @@ const WeatherPageContainer = (props) => {
           {forecastData.map((forecast, index) => (
             <tr key={index}>
               <td>{forecast.getFormattedTime()}</td>
-              <td>{forecast.type}</td>
+              <td>{forecast.getType()}</td>
               <td>{forecast.getForecast()}</td>
             </tr>
           ))}

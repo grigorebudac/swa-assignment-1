@@ -1,7 +1,7 @@
 const BASE_URL = "http://localhost:8080";
 
-import { WeatherForecast } from "models/WeatherForecast.model";
-import { WeatherData } from "models/WeatherData.model";
+import { WeatherForecast } from "../models/WeatherForecast.model";
+import { WeatherData } from "../models/WeatherData.model";
 
 export const WeatherService = function (fetcher) {
   return {
