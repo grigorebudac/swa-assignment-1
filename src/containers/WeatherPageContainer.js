@@ -1,13 +1,21 @@
 import React, { useState, useEffect } from "react";
 
 import Header from "../components/Header";
-import { LOCATIONS } from "../config/constants";
+import { FORECAST_TYPE, LOCATIONS, UNITS } from "../config/constants";
 import SelectLocation from "../components/SelectLocation";
+import { Weather } from "../models/Weather.modal";
 
 const WeatherPageContainer = (props) => {
   const [location, setLocation] = useState(LOCATIONS[0]);
-  const [historicalData, setHistoricalData] = useState([]);
   const [forecastData, setForecastData] = useState([]);
+
+  const [measurements, setMeasurements] = useState({
+    latestMeasurement: [],
+    minimumTemperature: null,
+    maximumTemperature: null,
+    totalPrecipitation: null,
+    averageWindSpeed: null,
+  });
 
   useEffect(() => {
     handleLoadData();
@@ -18,12 +26,21 @@ const WeatherPageContainer = (props) => {
   }
 
   async function handleLoadData() {
-    const [historicalData, forecastData] = await Promise.all([
+    const [data, forecastData] = await Promise.all([
       props.weatherService.getDataByCity(location),
       props.weatherService.getForecast(location),
     ]);
 
-    setHistoricalData(historicalData);
+    const weatherModal = Weather(data);
+
+    setMeasurements({
+      latestMeasurement: weatherModal.getLatestMeasurements(),
+      minimumTemperature: weatherModal.getMinimumTemperatureForToday(),
+      maximumTemperature: weatherModal.getMaximumTemperatureForToday(),
+      totalPrecipitation: weatherModal.getTotalPrecipitation(),
+      averageWindSpeed: weatherModal.getAverageWindSpeed(),
+    });
+
     setForecastData(forecastData);
   }
 
@@ -68,10 +85,12 @@ const WeatherPageContainer = (props) => {
         </thead>
 
         <tbody>
-          <tr>
-            <td>1</td>
-            <td>1</td>
-          </tr>
+          {measurements.latestMeasurement.map((item, index) => (
+            <tr key={index}>
+              <td>{item.getType()}</td>
+              <td>{item.getValueWithUnit()}</td>
+            </tr>
+          ))}
         </tbody>
       </table>
 
@@ -81,19 +100,19 @@ const WeatherPageContainer = (props) => {
       <table>
         <thead>
           <tr>
-            <th>Minimum temperature</th>
-            <th>Maximum temperature</th>
-            <th>Total precipitation</th>
-            <th>Average wind speed</th>
+            <th>Minimum temperature ({UNITS[FORECAST_TYPE.TEMPERATURE]})</th>
+            <th>Maximum temperature ({UNITS[FORECAST_TYPE.TEMPERATURE]})</th>
+            <th>Total precipitation ({UNITS[FORECAST_TYPE.PRECIPITATION]})</th>
+            <th>Average wind speed ({UNITS[FORECAST_TYPE.WIND_SPEED]})</th>
           </tr>
         </thead>
 
         <tbody>
           <tr>
-            <td>1</td>
-            <td>1</td>
-            <td>1</td>
-            <td>1</td>
+            <td>{measurements.minimumTemperature}</td>
+            <td>{measurements.maximumTemperature}</td>
+            <td>{measurements.totalPrecipitation}</td>
+            <td>{measurements.averageWindSpeed}</td>
           </tr>
         </tbody>
       </table>

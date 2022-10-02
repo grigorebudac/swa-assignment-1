@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import Header from "../components/Header";
 import SelectLocation from "../components/SelectLocation";
-import { FORECAST_TYPE, LOCATIONS } from "../config/constants";
+import { FORECAST_TYPE, LOCATIONS, UNITS } from "../config/constants";
 import { WeatherService } from "../services/WeatherService";
 
 import { xmlFetcher } from "../config/fetchers";
@@ -15,9 +15,11 @@ function getInputValue(e, name) {
 const weatherService = WeatherService(xmlFetcher);
 
 const SendWeatherData = () => {
-  const [type, setType] = useState(FORECAST_TYPE[0]);
+  const [type, setType] = useState(FORECAST_TYPE.TEMPERATURE);
   const [location, setLocation] = useState(LOCATIONS[0]);
   const [isLoading, setLoading] = useState(false);
+
+  const unit = UNITS[type];
 
   function handleChangeLocation(location) {
     setLocation(location);
@@ -34,12 +36,12 @@ const SendWeatherData = () => {
     try {
       const place = getInputValue(e, "place");
       const value = getInputValue(e, "value");
-      const unit = getInputValue(e, "unit");
 
       await weatherService.sendData({
         place,
         value,
         unit,
+        type,
       });
 
       alert("Success!");
@@ -57,17 +59,11 @@ const SendWeatherData = () => {
 
       <form onSubmit={handleSubmit}>
         <SelectForecastType value={type} onChange={handleChangeForecastType} />
-
         <SelectLocation value={location} onChange={handleChangeLocation} />
 
         <div>
-          <label htmlFor="value">Value</label>
-          <input id="value" name="value" type="number" required />
-        </div>
-
-        <div>
-          <label htmlFor="unit">Unit</label>
-          <input id="unit" name="unit" required />
+          <label htmlFor="value">Value ({unit})</label>
+          <input id="value" name="value" type="number" step=".01" required />
         </div>
 
         <input type="submit" value="Submit" disabled={isLoading} />

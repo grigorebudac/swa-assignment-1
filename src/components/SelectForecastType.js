@@ -11,7 +11,7 @@ const SelectForecastType = (props) => {
         value={props.value}
         onChange={(e) => props.onChange(e.target.value)}
       >
-        {FORECAST_TYPE.map((type) => (
+        {Object.values(FORECAST_TYPE).map((type) => (
           <option key={type} value={type}>
             {type}
           </option>
