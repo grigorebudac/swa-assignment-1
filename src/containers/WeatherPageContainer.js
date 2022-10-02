@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import Header from "../components/Header";
 import { FORECAST_TYPE, LOCATIONS, UNITS } from "../config/constants";
 import SelectLocation from "../components/SelectLocation";
-import { Weather } from "../models/Weather.modal";
+import { Weather } from "../models/Weather.model";
 
 const WeatherPageContainer = (props) => {
   const [location, setLocation] = useState(LOCATIONS[0]);
